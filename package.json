@@ -1,0 +1,33 @@
+{
+  "name": "node_get_location_and_weather",
+  "version": "1.0.0",
+  "description": "a open source lib for node.js for get location by city name or iso-3166 or lat,lon or ip, and get location weather",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rainyulei/node_get_location_and_weather.git"
+  },
+  "keywords": [
+    "location",
+    "lat",
+    "lon",
+    "weather",
+    "city",
+    "country",
+    "geoip",
+    "longitude",
+    "latitude"
+  ],
+  "author": "yulei",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rainyulei/node_get_location_and_weather/issues"
+  },
+  "dependencies": {
+    "geoip-lite": "^1.4.1"
+  },
+  "homepage": "https://github.com/rainyulei/node_get_location_and_weather#readme"
+}
