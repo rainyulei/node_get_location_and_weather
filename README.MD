@@ -1,11 +1,18 @@
 # 获取地址和天气
 
+主要提供简单的 大洲 国家城市的联动，以及IP 坐标查询，以及后续的天气继承操作
+
 ## 引入和简单使用
 
 引入
 
 ```javascript
-npm i 
+npm i node_get_location_and_weather
+
+```
+简单使用
+
+```javascript
 
 const NodeLocationWeatherCreater = require('node-location-weather')
 const NodeLocationWeather = NodeLocationWeatherCreater({
@@ -51,7 +58,6 @@ NodeLocationWeather.getLocation({
     // {area_name:'中英文大洲的名称'} -- 返回所有的国家列表
 }) 
 NodeLocationWeather.getWeather()// 参数与 getLocation 相同  但是支持城市天气查询country_name area_name 会报错
-
 ```
 
 
