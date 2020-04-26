@@ -51816,21 +51816,34 @@
     "Area_CN": "南极洲",
     "Area_EN": "Antarctica",
     "Latitude": "-73.799293",
-    "Longitude": "20.351485"
+    "Longitude": "20.351485",
+    "City_CN": "南极洲",
+    "City_EN": "Antarctica",
+    "City_ID": "AQ"
   },
   "CC": {
     "Country_CN": "科科斯（基林）群岛",
     "Country_EN": "Cocos (Keeling) Islands",
     "country_code": "CC",
+    "Area_CN": "海洋",
+    "Area_EN": "sea",
     "Latitude": "-12.148150",
-    "Longitude": "96.823613"
+    "Longitude": "96.823613",
+    "City_CN": "科科斯（基林）群岛",
+    "City_EN": "Cocos (Keeling) Islands",
+    "City_ID": "CC"
   },
   "GD": {
     "Country_CN": "格林纳达",
     "Country_EN": "Grenada",
     "country_code": "GD",
     "Latitude": "-12.024182",
-    "Longitude": "61.761889"
+    "Longitude": "61.761889",
+    "City_CN": "格林纳达",
+    "City_EN": "Grenada",
+    "City_ID": "GD",
+    "Area_CN": "海洋",
+    "Area_EN": "sea"
   },
   "LS": {
     "Country_CN": "莱索托",
@@ -51839,35 +51852,58 @@
     "Area_EN": "Africa",
     "country_code": "LS",
     "Latitude": "-29.314872",
-    "Longitude": "27.491663"
+    "Longitude": "27.491663",
+    "City_CN": "莱索托",
+    "City_EN": "Lesotho",
+    "City_ID": "LS"
   },
   "MH": {
     "Country_CN": "马绍尔群岛",
     "Country_EN": "Marshall Islands",
     "Latitude": "7.106426",
     "Longitude": "171.375269",
-    "country_code": "MH"
+    "country_code": "MH",
+    "City_CN": "马绍尔群岛",
+    "City_EN": "Marshall Islands",
+    "City_ID": "MH",
+    "Area_CN": "海洋",
+    "Area_EN": "sea"
   },
   "NU": {
     "Country_CN": "纽埃",
     "Country_EN": "Niue",
     "Latitude": "-19.081339",
     "Longitude": "-169.924864",
-    "country_code": "NU"
+    "country_code": "NU",
+    "City_CN": "纽埃",
+    "City_EN": "Niue",
+    "City_ID": "NU",
+    "Area_CN": "海洋",
+    "Area_EN": "sea"
   },
   "PW": {
     "Country_CN": "帕劳",
     "Country_EN": "Palau",
     "country_code": "PW",
     "Latitude": "7.571493",
-    "Longitude": "134.616605"
+    "Longitude": "134.616605",
+    "City_CN": "帕劳",
+    "City_EN": "Palau",
+    "City_ID": "PW",
+    "Area_CN": "海洋",
+    "Area_EN": "sea"
   },
   "RE": {
     "Country_CN": "留尼汪",
     "Country_EN": "Reunion",
     "country_code": "RE",
     "Latitude": "-21.114444",
-    "Longitude": "55.5325"
+    "Longitude": "55.5325",
+    "City_CN": "留尼汪",
+    "City_EN": "Reunion",
+    "City_ID": "RE",
+    "Area_CN": "海洋",
+    "Area_EN": "sea"
   },
   "SZ": {
     "Country_CN": "斯威士兰",
@@ -51876,13 +51912,21 @@
     "Area_EN": "Africa",
     "country_code": "SZ",
     "Latitude": "-26.441980",
-    "Longitude": "31.519731"
+    "Longitude": "31.519731",
+    "City_CN": "斯威士兰",
+    "City_EN": "Swaziland",
+    "City_ID": "SZ"
   },
   "WF": {
     "Country_CN": "瓦利斯和富图纳",
     "Country_EN": "Wallis and Futuna",
     "country_code": "WF",
     "Latitude": "-14.304095",
-    "Longitude": "-178.086880"
+    "Longitude": "-178.086880",
+    "City_CN": "瓦利斯和富图纳",
+    "City_EN": "Wallis and Futuna",
+    "City_ID": "WF",
+    "Area_CN": "海洋",
+    "Area_EN": "sea"
   }
 }

@@ -268,7 +268,7 @@ function weatherEntry() {
           const weather = require('./src/weather');
           input = getUserinputType(input);
           if (!CityInputType[input.type]) {
-            throw new Error('sorry, only can not find a city weather!');
+            throw new Error('sorry, wrong input type!');
           }
           localmessage = getLocationMessage(
             input,
@@ -279,6 +279,12 @@ function weatherEntry() {
             },
             config
           );
+          if (!localmessage) { 
+            return null;
+          }
+          if (!localmessage['Country_code']) { 
+            localmessage['Country_code'] = localmessage['City_ID'].slice(0,2)
+          }
           const weathermessage = await weather(
             input.type,
             localmessage,

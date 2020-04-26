@@ -99,18 +99,19 @@ const getAllCountriesByArea = ({ type, payload }, worldCountry) => {
   return countries;
 };
 const getLocationByCityNameEN = (payload, locationCN, locationWorldCity) => {
+  console.log('getLocationByCityNameEN')
   let getcity_name_en;
   for (const item in locationWorldCity) {
-    if (locationCN.hasOwnProperty(item)) {
+    if (locationWorldCity.hasOwnProperty(item)) {
       const element = locationWorldCity[item];
-      element['City_EN'] === payload ? (getcity_name_en = element) : '';
+      element['City_EN'].replace(' ','').toUpperCase() === payload.replace(' ','').toUpperCase() ? (getcity_name_en = element) : '';
     }
   }
   if (!getcity_name_en) {
     for (const item in locationCN) {
       if (locationCN.hasOwnProperty(item)) {
         const element = locationCN[item];
-        element['City_EN'] === payload ? (getcity_name_en = element) : '';
+        element['City_EN'].replace(' ','').toUpperCase() === payload.replace(' ','').toUpperCase() ? (getcity_name_en = element) : '';
       }
     }
   }
@@ -121,14 +122,14 @@ const getLocationByCityNameCN = (payload, locationCN, locationWorldCity) => {
   for (const item in locationCN) {
     if (locationCN.hasOwnProperty(item)) {
       const element = locationCN[item];
-      element['City_CN'] === payload ? (getcity_byname_cn = element) : '';
+      element['City_CN'].toUpperCase() === payload.toUpperCase() ? (getcity_byname_cn = element) : '';
     }
   }
   if (!getcity_byname_cn) {
     for (const item in locationWorldCity) {
-      if (locationCN.hasOwnProperty(item)) {
+      if (locationWorldCity.hasOwnProperty(item)) {
         const element = locationWorldCity[item];
-        element['City_CN'] === payload ? (getcity_byname_cn = element) : '';
+        element['City_CN'].toUpperCase() === payload.toUpperCase() ? (getcity_byname_cn = element) : '';
       }
     }
   }
