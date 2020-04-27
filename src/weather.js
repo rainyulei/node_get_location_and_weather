@@ -1,16 +1,19 @@
 const { CityInputType } = require('./config');
-let http = require('http');
-const https = require('https');
+
 // 发送请求
-const httpGETRequest = async (url) => {
-  url.startsWith('https:') ? (http = https) : '';
+const httpGETRequest = async url => {
+  http = url.startsWith('https:') ? require('https') : require('http');
   const pro = await new Promise((resolve, reject) => {
-    const req = http.get(url, (res) => {
+    let str='';
+    const req = http.get(url, res => {
       res.setEncoding('utf-8');
       res.on('data', function (chunk) {
-        return resolve(chunk);
+        str += chunk;
       });
-      res.on('end', function () {});
+      res.on('end', function () {
+        str = str.replace(/\n/g, '').replace(/\t/g, '')
+        return resolve(str);
+      });
     });
     req.on('error', function (err) {
       console.error(err);
@@ -21,7 +24,7 @@ const httpGETRequest = async (url) => {
   return pro;
 };
 // 通过自定义方法获取天气
-const getweatherByweatherGetters = async (weatherFunctions) => {
+const getweatherByweatherGetters = async weatherFunctions => {
   let result;
   for (let i = 0; i < weatherFunctions.length; i++) {
     const element = weatherFunctions[i];
@@ -36,7 +39,7 @@ const getweatherByweatherGetters = async (weatherFunctions) => {
   return result;
 };
 // 格式化 参数
-const getParams = (others) => {
+const getParams = others => {
   let params = '';
   for (const item in others) {
     if (others.hasOwnProperty(item)) {
@@ -71,16 +74,18 @@ const getWeatherFrom_amap = async (
 ) => {
   let params = getParams(others);
   let citycode = others['adcode'] || '';
-  if (!citycode) {
-    const tranlateURl = `https://restapi.amap.com/v3/geocode/regeo?location=${lon},${lat}&key=${key}`;
-    let city = await httpGETRequest(tranlateURl);
-    city = JSON.parse(city);
-    citycode = city['regeocode']['addressComponent']['adcode'];
-  }
-  const requestUrl = `https://restapi.amap.com/v3/weather/weatherInfo?key=${key}&extensions=${
-    type || 'all'
-    }&output=${others['output'] || 'json'}&city=${citycode}`;
+
   return async () => {
+    if (!citycode) {
+      const tranlateURl = `https://restapi.amap.com/v3/geocode/regeo?location=${lon},${lat}&key=${key}`;
+      let city = await httpGETRequest(tranlateURl);
+      city = JSON.parse(city);
+      citycode = city['regeocode']['addressComponent']['adcode'];
+    }
+    const requestUrl =
+      `https://restapi.amap.com/v3/weather/weatherInfo?key=${key}&extensions=${
+        type || 'all'
+      }&output=${others['output'] || 'json'}&city=${citycode}` + params;
     const result = await httpGETRequest(requestUrl);
     return result;
   };
@@ -130,7 +135,7 @@ const getWeather = async (
       ? localmessage['ll'][1]
       : localmessage['Longitude'];
   const defaultWeatherGettersKeys = Object.keys(others);
-  defaultWeatherGettersKeys.forEach((item) => {
+  defaultWeatherGettersKeys.forEach(item => {
     const f = eval(`getWeatherFrom_${item}`);
     const country = others[item]['country'] || 'all';
     if (!weatherGetters[country]) {
