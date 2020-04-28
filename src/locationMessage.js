@@ -18,9 +18,38 @@ const getCitysByCountry = (
     payload === '中国' ||
     payload.toUpperCase() === 'CHINA' ||
     payload.toUpperCase() === 'CN';
-  if (bool) return locationCN;
 
+  if (bool) {
+    const provience = {};
+    for (const key in locationCN) {
+      if (locationCN.hasOwnProperty(key)) {
+        const element = locationCN[key];
+        if (!provience[element.Province_EN]) {
+          provience[element.Province_EN] = {};
+          provience[element.Province_EN]['importantCity'] = [];
+          provience[element.Province_EN]['normalCity'] = [];
+        }
+        provience[element.Province_EN]['Province_EN'] = element.Province_EN
+        provience[element.Province_EN]['Province_CN'] = element.Province_CN
+        if (key.endsWith('01')||key.endsWith('100')) {
+          provience[element.Province_EN]['importantCity'].push(element);
+        } else {
+          provience[element.Province_EN]['normalCity'].push(element);
+        }
+      }
+    }
+    return {
+      Country_CN: '中国',
+      Country_EN: 'China',
+      Area_CN: '亚洲',
+      Area_EN: 'Asia',
+      country_code: 'CN',
+      phone_code: '+86',
+      provience,
+    };
+  }
   const cities = [];
+
   for (const item in locationWorldCity) {
     if (locationWorldCity.hasOwnProperty(item)) {
       const element = locationWorldCity[item];
@@ -33,7 +62,7 @@ const getCitysByCountry = (
             ? cities.push(element)
             : '';
           break;
-        case CountryInputType.country_name_es:
+        case CountryInputType.country_name_en:
           element['Country_EN'].toUpperCase() === payload.toUpperCase()
             ? cities.push(element)
             : '';
@@ -65,7 +94,7 @@ const getCountryShortMessageByCountryName = (
           : '';
         break;
       case CountryInputType.country_name_en:
-        element['Country_EN'].toUpperCase() === payload.toUpperCase()
+        worldCountry[i]['Country_EN'].toUpperCase() === payload.toUpperCase()
           ? (element = worldCountry[i])
           : '';
         break;
@@ -77,7 +106,7 @@ const getCountryShortMessageByCountryName = (
  *  获取所有的国家 简略信息
  * @param {*} worldCountry
  */
-const getAllCountries = (worldCountry) => {
+const getAllCountries = worldCountry => {
   return Array.from(worldCountry);
 };
 /**
@@ -99,19 +128,25 @@ const getAllCountriesByArea = ({ type, payload }, worldCountry) => {
   return countries;
 };
 const getLocationByCityNameEN = (payload, locationCN, locationWorldCity) => {
-  console.log('getLocationByCityNameEN')
+  console.log('getLocationByCityNameEN');
   let getcity_name_en;
   for (const item in locationWorldCity) {
     if (locationWorldCity.hasOwnProperty(item)) {
       const element = locationWorldCity[item];
-      element['City_EN'].replace(' ','').toUpperCase() === payload.replace(' ','').toUpperCase() ? (getcity_name_en = element) : '';
+      element['City_EN'].replace(' ', '').toUpperCase() ===
+      payload.replace(' ', '').toUpperCase()
+        ? (getcity_name_en = element)
+        : '';
     }
   }
   if (!getcity_name_en) {
     for (const item in locationCN) {
       if (locationCN.hasOwnProperty(item)) {
         const element = locationCN[item];
-        element['City_EN'].replace(' ','').toUpperCase() === payload.replace(' ','').toUpperCase() ? (getcity_name_en = element) : '';
+        element['City_EN'].replace(' ', '').toUpperCase() ===
+        payload.replace(' ', '').toUpperCase()
+          ? (getcity_name_en = element)
+          : '';
       }
     }
   }
@@ -122,14 +157,18 @@ const getLocationByCityNameCN = (payload, locationCN, locationWorldCity) => {
   for (const item in locationCN) {
     if (locationCN.hasOwnProperty(item)) {
       const element = locationCN[item];
-      element['City_CN'].toUpperCase() === payload.toUpperCase() ? (getcity_byname_cn = element) : '';
+      element['City_CN'].toUpperCase() === payload.toUpperCase()
+        ? (getcity_byname_cn = element)
+        : '';
     }
   }
   if (!getcity_byname_cn) {
     for (const item in locationWorldCity) {
       if (locationWorldCity.hasOwnProperty(item)) {
         const element = locationWorldCity[item];
-        element['City_CN'].toUpperCase() === payload.toUpperCase() ? (getcity_byname_cn = element) : '';
+        element['City_CN'].toUpperCase() === payload.toUpperCase()
+          ? (getcity_byname_cn = element)
+          : '';
       }
     }
   }
@@ -142,20 +181,30 @@ const getLocationByCity_code = (payload, locationCN, locationWorldCity) => {
     : (getcity_code = locationWorldCity[payload.toUpperCase()]);
   return getcity_code;
 };
-const getLocationByCity_ll = (payload, locationCN, locationWorldCity,LL_decimal) => {
+const getLocationByCity_ll = (
+  payload,
+  locationCN,
+  locationWorldCity,
+  LL_decimal
+) => {
   const cities = [];
-    let { lat, lon } = payload;
-   
-  lat = (lat + '').slice(0, (lat + '').indexOf('.') +( LL_decimal+1));
-    lon = (lon + '').slice(0, (lon + '').indexOf('.') + (LL_decimal + 1));
+  let { lat, lon } = payload;
+
+  lat = (lat + '').slice(0, (lat + '').indexOf('.') + (LL_decimal + 1));
+  lon = (lon + '').slice(0, (lon + '').indexOf('.') + (LL_decimal + 1));
   for (const item in locationCN) {
     if (locationCN.hasOwnProperty(item)) {
       const element = locationCN[item];
       const loLat =
-        element['Latitude'].slice(0, element['Latitude'].indexOf('.') + LL_decimal+1) + '';
+        element['Latitude'].slice(
+          0,
+          element['Latitude'].indexOf('.') + LL_decimal + 1
+        ) + '';
       const loLon =
-        element['Longitude'].slice(0, element['Longitude'].indexOf('.') +LL_decimal+ 1) +
-        '';
+        element['Longitude'].slice(
+          0,
+          element['Longitude'].indexOf('.') + LL_decimal + 1
+        ) + '';
       if (loLat === lat && loLon === lon) {
         cities.push(element);
       }
@@ -165,10 +214,15 @@ const getLocationByCity_ll = (payload, locationCN, locationWorldCity,LL_decimal)
     if (locationWorldCity.hasOwnProperty(item)) {
       const element = locationWorldCity[item];
       const loLat =
-        element['Latitude'].slice(0, element['Latitude'].indexOf('.') + LL_decimal+1) + '';
+        element['Latitude'].slice(
+          0,
+          element['Latitude'].indexOf('.') + LL_decimal + 1
+        ) + '';
       const loLon =
-        element['Longitude'].slice(0, element['Longitude'].indexOf('.') +LL_decimal+ 1) +
-        '';
+        element['Longitude'].slice(
+          0,
+          element['Longitude'].indexOf('.') + LL_decimal + 1
+        ) + '';
       if (loLat === lat && loLon === lon) {
         cities.push(element);
       }
@@ -184,16 +238,23 @@ const getLocationMessage = (
   switch (type) {
     case CityInputType.City_code:
       return getLocationByCity_code(payload, locationCN, locationWorldCity);
-      case CityInputType.City_ip:
+    case CityInputType.City_ip:
       if (config.geoip) {
-          const {getlocationMessageByIp} = require('./getlocationByIp');
+        const { getlocationMessageByIp } = require('./getlocationByIp');
         return getlocationMessageByIp(payload);
       } else {
-        throw new Error('you need to open geoip config like this: weather( {geoip:true})');
+        throw new Error(
+          'you need to open geoip config like this: weather( {geoip:true})'
+        );
       }
 
     case CityInputType.City_ll:
-      return getLocationByCity_ll(payload, locationCN, locationWorldCity,config.LL_decimal);
+      return getLocationByCity_ll(
+        payload,
+        locationCN,
+        locationWorldCity,
+        config.LL_decimal
+      );
     case CityInputType.City_name_CN:
       return getLocationByCityNameCN(payload, locationCN, locationWorldCity);
     case CityInputType.City_name_EN:

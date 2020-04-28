@@ -200,7 +200,9 @@ NodeLocationWeather.getAllCountriesByArea('非洲') // 可以使用  ‘非洲�
 NodeLocationWeather.getCitysByCountry('捷克')  // cz || Czechia
 ```
 
+#### getGeoip
 
+获取GEOiP 对象，可以使用geoip 包的方法，例如进行内置的IP 地址包更新等等。
 
 ## 在服务框架中使用
 
