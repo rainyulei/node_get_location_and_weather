@@ -12,6 +12,7 @@ const httpGETRequest = async url => {
       });
       res.on('end', function () {
         str = str.replace(/\n/g, '').replace(/\t/g, '')
+        str = (new Function('','return '+ str))()
         return resolve(str);
       });
     });
@@ -79,7 +80,6 @@ const getWeatherFrom_amap = async (
     if (!citycode) {
       const tranlateURl = `https://restapi.amap.com/v3/geocode/regeo?location=${lon},${lat}&key=${key}`;
       let city = await httpGETRequest(tranlateURl);
-      city = JSON.parse(city);
       citycode = city['regeocode']['addressComponent']['adcode'];
     }
     const requestUrl =

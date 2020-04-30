@@ -1,4 +1,3 @@
-const path = require('path');
 const {
   CountryInputType,
   CityInputType,
@@ -19,8 +18,10 @@ function getUserinputType(input) {
     /((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}/g
   );
   const IPV6pattern = new RegExp(/^(([\da-fA-F]{1,4}):){8}$/);
-  // 没有 input 报错
-  input = JSON.parse(JSON.stringify(input).toUpperCase());
+  input = input || {};
+  for (let key in input){
+    input[""+key.toUpperCase()+""] = input[key];
+}
   if (!input) {
     throw new Error("don't have a input!");
   } else if (
@@ -33,7 +34,6 @@ function getUserinputType(input) {
   ) {
     throw new Error('not a Effective input!');
   }
-  // input 是IP
   if (input['IP']) {
     if (IPV4pattern.test(input['IP']) || IPV6pattern.test(input['IP'])) {
       return { type: CityInputType.City_ip, payload: input['IP'] };
@@ -41,7 +41,6 @@ function getUserinputType(input) {
       throw new Error('not a true IP! please check it.');
     }
   }
-  // input 是 city _code
   if (input['CITY_CODE']) {
     if (
       espattern.test(input['CITY_CODE'].slice(0, 2)) &&
@@ -52,7 +51,6 @@ function getUserinputType(input) {
       throw new Error('Wrong city_code type!');
     }
   }
-  // input 是坐标
   if (input['LAT'] && input['LON']) {
     if (numpattern.test(input['LON']) && numpattern.test(input['LAT'])) {
       return {
@@ -63,7 +61,6 @@ function getUserinputType(input) {
       throw new Error('wrong input longitude or latitude!');
     }
   }
-  // input  是city name 的 说明有counry_name 或者没有
   if (input['CITY_NAME']) {
     if (cnpatten.test(input['CITY_NAME'])) {
       return { type: CityInputType.City_name_CN, payload: input['CITY_NAME'] };
@@ -73,7 +70,6 @@ function getUserinputType(input) {
       throw new Error('wrong input city_name!');
     }
   }
-  // input 只有 country_name的
   if (input['COUNTRY_NAME']) {
     return testCountryInput(input['COUNTRY_NAME']);
   }
@@ -97,13 +93,11 @@ function testCountryInput(country) {
   } else if (espattern.test(country)) {
     if (country.length === 2) {
       return {
-        // 英文两位简写
         type: CountryInputType.country_name_abbr,
         payload: country,
       };
     }
     return {
-      //英文名称
       type: CountryInputType.country_name_en,
       payload: country,
     };
@@ -127,7 +121,6 @@ function testAreaInput(area) {
     };
   } else if (espattern.test(area)) {
     return {
-      //英文名称
       type: AreaInputType.EN,
       payload: area,
     };
@@ -135,7 +128,6 @@ function testAreaInput(area) {
     throw new Error('wrong input area name !');
   }
 }
-
 function testConfig(initConfig, config) {
   config = {
     ...initConfig,
@@ -160,7 +152,7 @@ function testConfig(initConfig, config) {
     throw new Error('weather only support EN or CN language!');
   }
   const newConfig = {
-    LL_decimal: config.LL_decimal, // 0-2
+    LL_decimal: config.LL_decimal,
     geoip: config.geoip,
     getWeather: config.getWeather,
     weatherGetters: config.weatherGetters,
@@ -179,7 +171,6 @@ function testConfig(initConfig, config) {
   newConfig.weatherGetters = sequence;
   return newConfig;
 }
-
 function testWeatherConfig(type, config, newConfig) {
   if (config[type]['use']) {
     if (config[type]['key']) {
@@ -208,7 +199,6 @@ function testweatherGetters(weatherGetters) {
     }
   }
 }
-
 function createWeatherSequence({ weatherGetters }) {
   testweatherGetters(weatherGetters);
   let sequence = {};
@@ -223,16 +213,13 @@ function createWeatherSequence({ weatherGetters }) {
   }
   return sequence;
 }
-
 function weatherEntry() {
   const locationCN = require('./src/location/china.json');
   const locationWorldCity = require('./src/location/world.json');
   const worldCountry = require('./src/location/country_tel.json');
   return (config) => {
-    // 初始化设置 默认设置
     config = testConfig(initConfig, config);
     const output = {
-      // 获取输入地的 信息
       getLocation: (input) => {
         input = getUserinputType(input);
         return getLocationMessage(
@@ -245,7 +232,6 @@ function weatherEntry() {
           config
         );
       },
-      // 获取国家的所有城市 信息集合
       getCitysByCountry: (country) => {
         country = testCountryInput(country);
         return getCitysByCountry(country, {
@@ -254,11 +240,9 @@ function weatherEntry() {
           worldCountry,
         });
       },
-      // 获取 所有国家的英文名称 输出中英文
       getAllCountries: () => {
         return getAllCountries(worldCountry);
       },
-      // 获取大洲上的国家名称  输出中英文
       getAllCountriesByArea: (area) => {
         area = testAreaInput(area);
         return getAllCountriesByArea(area, worldCountry);
