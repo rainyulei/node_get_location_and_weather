@@ -56,7 +56,7 @@ const getWeatherFrom_sevenTimer = async (
 ) => {
   let params = getParams(others);
   const requestUrl =
-    `http://www.7timer.info/bin/astro.php?lon=${lon}&lat=${lat}&lang=${language}&unit=${
+    `http://www.7timer.info/bin/${type||'civil'}.php?lon=${lon}&lat=${lat}&lang=${language}&unit=${
       others['unit'] || 'metric'
     }&output=${others['output'] || 'json'}&tzshift=${
       others['tzshift'] || '0'
@@ -115,7 +115,7 @@ const getWeatherFrom_niceWind = async (
   { country, use, key, type, ...others }
 ) => {
   const params = getParams(others);
-  const requestUrl = `https://free-api.heweather.net/s6/weather/${type}?key=${key}&lang=${language}&location=${lon},${lat}${params}`;
+  const requestUrl = `https://free-api.heweather.net/s6/weather/${type||'now'}?key=${key}&lang=${language}&location=${lon},${lat}${params}`;
   return async () => {
     return await httpGETRequest(requestUrl);
   };
@@ -126,6 +126,7 @@ const getWeather = async (
   localmessage,
   { weatherGetters, weather_language, LL_decimal, geoip, getWeather, ...others }
 ) => {
+  console.log(others)
   const lat =
     type === CityInputType.City_ip
       ? localmessage['ll'][0]

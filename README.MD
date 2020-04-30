@@ -67,7 +67,9 @@ const NodeLocationWeather = NodeLocationWeatherCreater({
     // 7timer 天气API 接口
     sevenTimer: {
     use: true, // 默认为使用
+    type:"two"// 一到两周 天气预报  civil（默认） 民用 一周天气预报 civillight 民用简单一周预报  meteo 气象用途  astro 天文用途
     country: 'all', // 哪个国家地址访问启动此API 默认为All  所有国家，可以修改为‘CN’，则当查询中国城市天气时使用此API接口
+
        // ... 其他的参数为sevenTimer 提供的参数选项
   },
     // 高德天气接口
@@ -75,22 +77,23 @@ const NodeLocationWeather = NodeLocationWeatherCreater({
     use: false,// 是否开启
     country: 'CN', // 访问启动API的国家
     key: '',// 高德天气的 KEY
-      ... 其他的参数为amap 提供的参数选项
+     type:"base" //base 实况天气 all 预报天气查询   ... 其他的参数为amap 提供的参数选项
   },
     // 和风天气 接口
   niceWind: {
     use: false,
     country: 'all',
       key: '',
-    type:'now' // 使用的API 类型
-      ... 其他的参数为niceWind提供的参数选项
+    type:'lifestyle' // 使用的API 类型
+      //... 其他的参数为niceWind提供的参数选项
   },
     //openWeather 接口
   openWeather: {
     use: false,
     country: 'all',
     key: '',
-    type: 'forecast',// 使用的API 类型
+    type: 'forecast' // 16 日天气预报 forecast/daily 16日每日天气,//  默认为weather 当前天气预报  onecall 当前与未来48小时天气预报详细
+     //API 类型 
       ... 其他的参数为openWeather 提供的参数选项
   },
   weather_language: 'EN',// 返回天气的语言， 注意 有些API 接口并不支持多语言，请查询后使用，默认为英文
